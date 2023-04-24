@@ -12,7 +12,8 @@ const clienteSchema = mongoose.Schema({
     },
     correo: {
         type: String,
-        trim: true
+        trim: true,
+        unique: true
     },
     fueInvitado: {
         type: Boolean,

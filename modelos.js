@@ -25,7 +25,9 @@ const roles = {
     clienteInvitadoUno: 'idCliente',
     clienteInvitadoDos: 'idCliente',
     clienteInvitadoTres: 'idCliente',
-    invitados: 0
+    password: 'speedy123',
+    invitados: 0,
+    rol: 'idRol'
   }
   
   const categorias = {

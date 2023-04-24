@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const rolSchema = mongoose.Schema({
-    nombreRol: {
+    rol: {
         type: String,
         required: true,
         trim: true
