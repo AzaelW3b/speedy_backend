@@ -26,6 +26,71 @@ export const crearUsuario = async ( req, res ) => {
     }
 }
 
+export const obtenerUsuarios = async ( req, res ) => {
+    try {
+        const usuarios = await Usuario.find({})
+        res.json(usuarios)
+    } catch ( error ) {
+        console.log( error )
+        res.status(500).send('Hubo un error')
+    }
+}
+
+
+export const actualizarUsuario = async ( req, res ) => {
+    const { nombreUsuario, correo, password, rol } = req.body
+    const nuevoUsuario = {}
+
+    if (nombreUsuario) {
+        nuevoUsuario.nombreUsuario = nombreUsuario
+    }
+
+    if (correo) {
+        nuevoUsuario.correo = correo
+    }
+
+    if (password) {
+        nuevoUsuario.password = password
+    }
+
+    if (rol) {
+        nuevoUsuario.rol = rol
+    }
+
+
+    try {
+        let usuarioExiste = await Usuario.findById(req.params.id)
+
+        if (!usuarioExiste) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' })
+        }
+        usuarioExiste = await Usuario.findByIdAndUpdate({ _id: req.params.id }, { $set: nuevoUsuario }, { new: true })
+        res.json( usuarioExiste )
+        
+    } catch ( error ) {
+        console.log( error )
+        res.status(500).send('Hubo un error')
+    }
+}
+
+export const eliminarUsuario = async ( req, res ) => {
+    try {
+        let usuario = await Usuario.findById(req.params.id)
+
+        if (!usuario) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' })
+        }
+
+        await Usuario.findOneAndRemove({ _id: req.params.id })
+        res.json({ msg: 'Usuario eliminado' })
+
+    } catch ( error ) {
+        console.log( error )
+        res.status(500).send('Hubo un error')
+    }
+}
+
+
 export const autenticarUsuario = async (req, res) => {
     try {
         const { correo, password } = req.body
@@ -33,7 +98,7 @@ export const autenticarUsuario = async (req, res) => {
         // comprobar si el usuario existe
         const usuario = await Usuario.findOne({ correo })
         if (!usuario) {
-            return res.status(403).json({msg: 'El usuario no existe'})
+            return res.status(403).json({ msg: 'El usuario no existe' })
         }
         // Revisar el password
         if(await usuario.comprobarPassword(password)) {
@@ -44,10 +109,16 @@ export const autenticarUsuario = async (req, res) => {
             return res.status(403).json({ msg: 'El password es incorrecto' })
         }
 
-    } catch (error) {
+    } catch ( error ) {
         console.log( error )
 
     }
+}
+
+export const perfil = async ( req, res ) => {
+    const { usuario } = req
+    res.json({ usuario })
+    console.log('mostrando perfil')
 }
 
 
