@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
 
 const clienteSchema = mongoose.Schema({
     nombreCliente: {
@@ -14,6 +15,10 @@ const clienteSchema = mongoose.Schema({
         type: String,
         trim: true,
         unique: true
+    },
+    password: {
+        type: String,
+        required: true
     },
     fueInvitado: {
         type: Boolean,
@@ -38,9 +43,28 @@ const clienteSchema = mongoose.Schema({
     invitadosCantidad: {
         type: Number,
         default: 0
-    }
+    },
+    rol: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Rol'
+    }, 
 
 })
+
+clienteSchema.pre('save', async function ( next ) {
+    // si ya esta hasheado no lo vuelve a hashear
+    if(!this.isModified('password')) {
+        next()
+    }
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password, salt)
+
+})
+
+
+clienteSchema.methods.comprobarPassword = async function( passwordFormulario ) {
+    return await bcrypt.compare(passwordFormulario, this.password)
+}
 
 const Cliente = mongoose.model('Cliente', clienteSchema)
 export default Cliente
