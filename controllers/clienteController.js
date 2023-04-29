@@ -157,7 +157,7 @@ export const autenticarCliente = async (req, res) => {
 
 export const perfil = async ( req, res ) => {
     const { cliente } = req
-    res.json({ cliente })
+    res.json(cliente)
     console.log('mostrando perfil')
 }
 

@@ -4,6 +4,10 @@ import conectarDB from './config/db.js'
 import cors from 'cors'
 import rolesRouter from './routes/roles.js'
 import usuariosRouter from './routes/usuarios.js'
+import clientesRouter from './routes/clientes.js'
+import categoriasRouter from './routes/categoria.js'
+import productosRouter from './routes/producto.js'
+import ventasRouter from './routes/venta.js'
 
 const app = express()
 app.use( cors() )
@@ -20,6 +24,10 @@ const PORT = process.env.PORT || 5000
 
 app.use('/api/roles', rolesRouter)
 app.use('/api/usuarios', usuariosRouter)
+app.use('/api/clientes', clientesRouter)
+app.use('/api/categorias', categoriasRouter)
+app.use('/api/productos', productosRouter)
+app.use('/api/ventas', ventasRouter)
 
 app.listen(PORT, () => {
     console.log(`El servidor está funcionando en el puerto ${ PORT }`)
