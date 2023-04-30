@@ -45,8 +45,8 @@ const clienteSchema = mongoose.Schema({
         default: 0
     },
     rol: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Rol'
+       type: String,
+       trim: true
     }, 
 
 })

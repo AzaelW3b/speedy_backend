@@ -40,7 +40,7 @@ export const actualizarRol = async ( req, res ) => {
 
         rolExiste = await Rol.findByIdAndUpdate({ _id: req.params.id }, { $set: nuevoRol }, { new: true })
         
-        res.json( rolExiste )
+        res.json({ msg: 'Rol actualizado' })
     } catch ( error ) {
         console.log( error )
         res.status(500).send('Hubo un error')

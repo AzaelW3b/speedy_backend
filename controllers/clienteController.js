@@ -144,7 +144,7 @@ export const autenticarCliente = async (req, res) => {
         // Revisar el password
         if(await cliente.comprobarPassword(password)) {
             // autenticar
-            res.json({ token: generarJWT(cliente._id) })
+            res.json({ token: generarJWT(cliente._id), isAdmin: 2 })
         } else {
             return res.status(403).json({ msg: 'El password es incorrecto' })
         }

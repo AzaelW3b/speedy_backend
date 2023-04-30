@@ -17,8 +17,8 @@ const usuarioSchema = mongoose.Schema({
         required: true
     },
     rol: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Rol'
+        type: String,
+        trim: true
     }, 
     token: {
         type: String,

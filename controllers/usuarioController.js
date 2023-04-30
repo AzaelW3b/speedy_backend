@@ -65,7 +65,8 @@ export const actualizarUsuario = async ( req, res ) => {
             return res.status(404).json({ msg: 'Usuario no encontrado' })
         }
         usuarioExiste = await Usuario.findByIdAndUpdate({ _id: req.params.id }, { $set: nuevoUsuario }, { new: true })
-        res.json( usuarioExiste )
+        
+        res.json({ msg: 'Usuario actualizado' })
         
     } catch ( error ) {
         console.log( error )
@@ -94,6 +95,7 @@ export const eliminarUsuario = async ( req, res ) => {
 export const autenticarUsuario = async (req, res) => {
     try {
         const { correo, password } = req.body
+        console.log(req.body)
 
         // comprobar si el usuario existe
         const usuario = await Usuario.findOne({ correo })
@@ -104,7 +106,7 @@ export const autenticarUsuario = async (req, res) => {
         if(await usuario.comprobarPassword(password)) {
             // autenticar
             console.log(usuario._id)
-            res.json({ token: generarJWT(usuario._id) })
+            res.json({ token: generarJWT(usuario._id), isAdmin: 1 })
         } else {
             return res.status(403).json({ msg: 'El password es incorrecto' })
         }
