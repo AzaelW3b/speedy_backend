@@ -16,6 +16,11 @@ const ventaSchema = mongoose.Schema({
     fecha: {
         type: Date,
         default: Date.now(),
+    },
+    cashback: {
+        type: Number, 
+        min: 0, 
+        max: 1000000 
     }
 })
 

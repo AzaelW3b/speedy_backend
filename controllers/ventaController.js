@@ -33,7 +33,7 @@ export const obtenerVentas = async ( req, res ) => {
 // }
 
 export const actualizarVenta = async ( req, res ) => {
-    const { productos, total, fecha } = req.body
+    const { productos, total, fecha, cashback } = req.body
     const nuevaVenta = {}
 
     if (productos) {
@@ -46,6 +46,9 @@ export const actualizarVenta = async ( req, res ) => {
 
     if (fecha) {
         nuevaVenta.fecha = fecha
+    }
+    if (cashback) {
+        nuevaVenta.cashback = cashback
     }
 
     try {
@@ -61,6 +64,30 @@ export const actualizarVenta = async ( req, res ) => {
     } catch ( error ) {
         console.log( error )
         res.status(500).send('Hubo un error')
+    }
+}
+
+export const obtenerVentasDelDia = async (req, res) => {
+    try {
+        const fechaInicio = new Date()
+        fechaInicio.setHours(0, 0, 0 ,0)
+        const fechaFin = new Date()
+        fechaFin.setHours(23 ,59 ,59 ,999)
+
+        const ventasDia = await Venta.find({
+            fecha: {
+                $gte: fechaInicio,
+                $lte: fechaFin
+            }
+        })
+        const cantidadVentas = ventasDia.length
+        const totalVentasDia = ventasDia.reduce((total, venta) => total + venta.total, 0)
+
+        res.json({ cantidadVentas, totalVentasDia })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ msg: 'Error al obtener las ventas del dia' })
     }
 }
 
