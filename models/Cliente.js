@@ -47,7 +47,11 @@ const clienteSchema = mongoose.Schema({
     rol: {
        type: String,
        trim: true
-    }, 
+    },
+    tipoMembresia: {
+        type: String,
+        trim: true,
+    }
 
 })
 
