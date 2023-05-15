@@ -9,7 +9,8 @@ const  authCliente = async ( req, res, next ) => {
             token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             
-            req.cliente = await Cliente.findById(decoded.id).select('-password')
+            req.cliente = await Cliente.findById(decoded.id).populate('invitadoPor', 'nombreCliente')
+            .populate('clienteInvitadoUno clienteInvitadoDos clienteInvitadoTres', 'nombreCliente').select('-password')
 
             return next()
 
