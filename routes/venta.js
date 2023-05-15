@@ -7,6 +7,7 @@ router.post('/', crearVenta)
 router.get('/', obtenerVentas)
 router.get('/ventasDia', obtenerVentasDelDia)
 router.get('/ventasCliente/:id', obtenerVentaClienteId)
+// router.get('/ventasMes/:id', obtenerProductosVendidosPorMes)
 router.put('/:id', actualizarVenta)
 router.delete('/:id', eliminarVenta)
 

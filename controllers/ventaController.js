@@ -98,6 +98,25 @@ export const obtenerVentaClienteId = async (req, res) => {
               }
             },
             {
+              $lookup: {
+                from: 'productos',
+                localField: 'productoId',
+                foreignField: '_id',
+                as: 'productos'
+              }
+            },
+            {
+              $addFields: {
+                totalCompraProductos: {
+                  $reduce: {
+                    input: '$productos',
+                    initialValue: 0,
+                    in: { $add: [{ $multiply: ['$cantidad', '$precio'] }, '$$value'] }
+                  }
+                }
+              }
+            },
+            {
               $group: {
                 _id: {
                     mes: '$_id.month',
@@ -108,11 +127,14 @@ export const obtenerVentaClienteId = async (req, res) => {
                     mes: '$_id.month',
                     anio: '$_id.year',
                     totalVentas: '$totalVentas',
-                    countVentas: '$count'
+                    countVentas: '$count',
+                    productos: '$productos',
+                    totalCompraProductos: '$totalCompraProductos'
                   }
                 },
                 totalVentas: { $sum: '$totalVentas' },
-                 totalCount: { $sum: '$count' }
+                totalCompraProductos: { $sum: '$totalCompraProductos' },
+                totalCount: { $sum: '$count' }
               }
             }
           ])
@@ -121,6 +143,46 @@ export const obtenerVentaClienteId = async (req, res) => {
         console.log(error)
     }
 }
+// export const obtenerVentaClienteId = async (req, res) => {
+//     try {
+//         const ventas = await Venta.aggregate([
+//             { $match: { clienteId: new mongoose.Types.ObjectId(req.params.id) } },
+//             {
+//                 $group: {
+//                     _id: {
+//                         month: { $month: '$fecha' },
+//                         year: { $year: '$fecha' }
+//                     },
+//                     totalVentas: { $sum: '$total' },
+//                     count: { $sum: 1 }
+//                 }
+//             },
+//             {
+//                 $group: {
+//                     _id: {
+//                         mes: '$_id.month',
+//                         anio: '$_id.year'
+//                     },
+//                     ventasPorMes: {
+//                         $push: {
+//                             mes: '$_id.month',
+//                             anio: '$_id.year',
+//                             totalVentas: '$totalVentas',
+//                             countVentas: '$count'
+//                         }
+//                     },
+//                     totalVentas: { $sum: '$totalVentas' },
+//                     totalCount: { $sum: '$count' }
+//                 }
+//             }
+//         ])
+//         res.json(ventas)
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+
 export const eliminarVenta = async (req, res) => {
     try {
         let venta = await Venta.findById(req.params.id)
