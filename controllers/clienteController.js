@@ -44,11 +44,9 @@ export const actualizarCliente = async ( req, res ) => {
         correo, 
         password, 
         fueInvitado, 
-        invitadoPor, 
-        clienteInvitadoUno, 
-        clienteInvitadoDos, 
-        clienteInvitadoTres, 
-        invitadosCantidad, 
+        invitadoPor,
+        invitados,
+        niveles,
         rol 
     } = req.body
 
@@ -79,24 +77,16 @@ export const actualizarCliente = async ( req, res ) => {
         nuevoCliente.invitadoPor = invitadoPor
     }
 
-    if (clienteInvitadoUno) {
-        nuevoCliente.clienteInvitadoUno = clienteInvitadoUno
-    }
-
-    if (clienteInvitadoDos) {
-        nuevoCliente.clienteInvitadoDos = clienteInvitadoDos
-    }
-
-    if (clienteInvitadoTres) {
-        nuevoCliente.clienteInvitadoTres = clienteInvitadoTres
-    }
-
-    if (invitadosCantidad) {
-        nuevoCliente.invitadosCantidad = invitadosCantidad
-    }
-
     if (rol) {
         nuevoCliente.rol = rol
+    }
+    if (invitados) {
+        nuevoCliente.invitados = invitados
+
+    }
+    if (niveles) {
+        nuevoCliente.niveles = niveles
+
     }
 
     try {
