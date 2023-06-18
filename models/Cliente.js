@@ -7,6 +7,11 @@ const clienteSchema = mongoose.Schema({
     required: true,
     trim: true,
   },
+  folio: {
+    type: String,
+    unique: true,
+    default: generarFolio
+  },
   telefono: {
     type: String,
     trim: true,
@@ -49,7 +54,19 @@ const clienteSchema = mongoose.Schema({
     default: 0,
   },
 })
+function generarFolio() {
+  const length = 17
+  const timestamp = Date.now().toString() 
+  const remainingLength = length - timestamp.length
+  let folio = timestamp
 
+  for (let i = 0; i < remainingLength; i++) {
+    const randomDigit = Math.floor(Math.random() * 10)
+    folio += randomDigit.toString()
+  }
+
+  return folio
+}
 clienteSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next()
