@@ -55,7 +55,7 @@ const clienteSchema = mongoose.Schema({
   },
 })
 function generarFolio() {
-  const length = 25
+  const length = 5
   const timestamp = Date.now().toString() 
   const remainingLength = length - timestamp.length
   let folio = timestamp
@@ -65,7 +65,8 @@ function generarFolio() {
     folio += randomDigit.toString()
   }
 
-  return folio
+  return folio+'S'
+  
 }
 clienteSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
