@@ -55,7 +55,7 @@ const clienteSchema = mongoose.Schema({
   },
 })
 function generarFolio() {
-  const length = 17
+  const length = 25
   const timestamp = Date.now().toString() 
   const remainingLength = length - timestamp.length
   let folio = timestamp
