@@ -143,44 +143,17 @@ export const obtenerVentaClienteId = async (req, res) => {
         console.log(error)
     }
 }
-// export const obtenerVentaClienteId = async (req, res) => {
-//     try {
-//         const ventas = await Venta.aggregate([
-//             { $match: { clienteId: new mongoose.Types.ObjectId(req.params.id) } },
-//             {
-//                 $group: {
-//                     _id: {
-//                         month: { $month: '$fecha' },
-//                         year: { $year: '$fecha' }
-//                     },
-//                     totalVentas: { $sum: '$total' },
-//                     count: { $sum: 1 }
-//                 }
-//             },
-//             {
-//                 $group: {
-//                     _id: {
-//                         mes: '$_id.month',
-//                         anio: '$_id.year'
-//                     },
-//                     ventasPorMes: {
-//                         $push: {
-//                             mes: '$_id.month',
-//                             anio: '$_id.year',
-//                             totalVentas: '$totalVentas',
-//                             countVentas: '$count'
-//                         }
-//                     },
-//                     totalVentas: { $sum: '$totalVentas' },
-//                     totalCount: { $sum: '$count' }
-//                 }
-//             }
-//         ])
-//         res.json(ventas)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+
+// obtener las ventas de un cliente en especifico
+
+export const obtenerVentasClienteId = async (req, res) => {
+  try {
+    const ventas = await Venta.find({ clienteId: req.params.id })
+    res.json(ventas)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 
 export const eliminarVenta = async (req, res) => {
