@@ -8,6 +8,7 @@ import clientesRouter from './routes/clientes.js'
 import categoriasRouter from './routes/categoria.js'
 import productosRouter from './routes/producto.js'
 import ventasRouter from './routes/venta.js'
+import inventarioRouter from './routes/inventario.js'
 
 const app = express()
 app.use( cors() )
@@ -28,6 +29,7 @@ app.use('/api/clientes', clientesRouter)
 app.use('/api/categorias', categoriasRouter)
 app.use('/api/productos', productosRouter)
 app.use('/api/ventas', ventasRouter)
+app.use('/api/inventario', inventarioRouter)
 
 app.listen(PORT, () => {
     console.log(`El servidor está funcionando en el puerto ${ PORT }`)
