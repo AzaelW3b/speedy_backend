@@ -13,6 +13,16 @@ const inventarioSchema = mongoose.Schema({
         type: Number,
         min: 0,
         max: 1000000 
+    },
+    precioCompra: {
+        type: Number,
+        min: 0,
+        max: 1000000
+    },
+    precioSalida: {
+        type: Number,
+        min: 0,
+        max: 1000000
     }
 })
 

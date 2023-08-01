@@ -23,7 +23,7 @@ export const obtenerInventario = async ( req, res ) => {
 }
 
 export const actualizarInventario = async (req, res) => {
-    const { codigoBarras, nombreProducto, cantidad } = req.body
+    const { codigoBarras, nombreProducto, cantidad, precioCompra, precioSalida } = req.body
     const nuevoInventario = {}
 
     if (codigoBarras) {
@@ -36,6 +36,13 @@ export const actualizarInventario = async (req, res) => {
         nuevoInventario.cantidad = cantidad
     }
 
+    if (precioCompra) {
+
+    }   nuevoInventario.precioCompra = precioCompra
+    
+    if (precioSalida) {
+        nuevoInventario.precioSalida = precioSalida
+    }
     try {
         let inventarioExiste = await Inventario.findOne( { codigoBarras: req.params.id } )
         if (!inventarioExiste) {
