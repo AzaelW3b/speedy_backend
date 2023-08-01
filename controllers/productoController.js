@@ -34,7 +34,7 @@ export const obtenerProductos = async ( req, res ) => {
 export const actualizarProducto = async ( req, res ) => {
     const { codigoBarras, nombreProducto, precio, categoria } = req.body
     const nuevoProducto = {}
-
+    console.log(categoria)
     if (codigoBarras) {
         nuevoProducto.codigoBarras = codigoBarras
     }
@@ -48,7 +48,7 @@ export const actualizarProducto = async ( req, res ) => {
     }
 
     if (categoria) {
-        nuevoProducto.categoria = categoria
+        nuevoProducto.categoria = categoria.value
     }
 
 
