@@ -2,8 +2,17 @@ import Inventario from '../models/Inventario.js'
 
 export const crearInventario = async ( req, res ) => {
     try {
+        const { codigoBarras } = req.body
+
+        const existeInventario = await Inventario.findOne({ codigoBarras })
+        
+        if(existeInventario) {
+            return res.status(400).json({ msg: 'Este producto ya esta registrado en el inventario' })
+        }
+
         const inventario = new Inventario( req.body )
         await inventario.save()
+        
         res.json(inventario)
     } catch (error) {
         console.log(error)
