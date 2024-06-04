@@ -4,8 +4,8 @@ import mongoose from 'mongoose'
 export const crearVenta = async (req, res) => {
     try {
         const venta = new Venta(req.body)
+        venta.populate({ path: "clienteId" })
         await venta.save()
-
         res.json(venta)
     } catch (error) {
         console.log(error)
@@ -15,7 +15,7 @@ export const crearVenta = async (req, res) => {
 
 export const obtenerVentas = async (req, res) => {
     try {
-        const ventas = await Venta.find({})
+        const ventas = await Venta.find({}).populate({ path: "clienteId" })
         res.json(ventas)
 
     } catch (error) {
@@ -49,7 +49,7 @@ export const actualizarVenta = async (req, res) => {
         if (!ventaExiste) {
             return res.status(404).json({ msg: 'Venta no encontrada' })
         }
-
+        ventaExiste.populate({ path: "clienteId" })
         ventaExiste = await Venta.findByIdAndUpdate({ _id: req.params.id }, { $set: nuevaVenta }, { new: true })
 
         res.json(ventaExiste)
