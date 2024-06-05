@@ -53,6 +53,12 @@ const clienteSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  numeroCuenta: {
+    type: String,
+  },
+  banco: {
+    type: String
+  }
 })
 function generarFolio() {
   const length = 5

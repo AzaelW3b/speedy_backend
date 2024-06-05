@@ -18,6 +18,8 @@ dotenv.config()
 conectarDB()
 
 
+  migrateData()
+
 app.use(express.json({ extended: true }))
 
 
