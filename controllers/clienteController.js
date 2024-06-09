@@ -47,7 +47,9 @@ export const actualizarCliente = async ( req, res ) => {
         invitadoPor,
         invitados,
         niveles,
-        rol 
+        rol,
+        banco,
+        numeroCuenta
     } = req.body
 
 
@@ -86,8 +88,17 @@ export const actualizarCliente = async ( req, res ) => {
     }
     if (niveles) {
         nuevoCliente.niveles = niveles
-
     }
+
+    if (banco) {
+        nuevoCliente.banco = banco
+    }
+
+    if (numeroCuenta) {
+        nuevoCliente.numeroCuenta = numeroCuenta
+    }
+    
+    console.log(nuevoCliente)
 
     try {
         let clienteExiste = await Cliente.findById(req.params.id)
@@ -151,14 +162,15 @@ export const perfil = async ( req, res ) => {
     console.log('mostrando perfil')
 }
 
-
-//   const usuarios = {
-  
-//     _id: Date.now(),
-//     nombreUsuario: 'Azael Garcia Jaimes',
-//     correo: 'azaelweb1@gmail.com',
-//     password: 'speedy123',
-//     rol: 'admin'
-  
-//   }
-  
+export const obtenerInvitadoPorSocioPrincipal = async (req, res) => {
+    try {
+      const cliente = await Cliente.findById(req.params.id).populate('invitados.cliente')
+      if (!cliente) {
+        return res.status(404).json({ msg: 'Cliente no encontrado' })
+      }
+      res.json(cliente?.invitados?.filter(cliente => cliente?.cliente !== null))
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ msg: 'Error en el servidor' })
+    }
+  }
