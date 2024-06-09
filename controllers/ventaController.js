@@ -157,7 +157,8 @@ export const obtenerVentaClienteId = async (req, res) => {
 
 export const obtenerVentasClienteId = async (req, res) => {
   try {
-    const ventas = await Venta.find({ clienteId: req.params.id })
+    const ventas = await Venta.find({ clienteId: req.params.id }).populate('clienteId')
+    console.log(ventas)
     res.json(ventas)
   } catch (error) {
     console.log(error)
